@@ -32,3 +32,43 @@ The `Layered Map` is particularly useful when dealing with large datasets, such 
 ## Cons
 
 On the downside, if your dataset contains a large number of unique keys, the memory usage can increase significantly. Each distinct key creates its own path of nodes in the structure, leading to higher memory allocation. This trade-off may become a concern in applications with highly diverse keys or limited memory resources.
+
+# Usage Example
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/bethecozmo/layeredmap"
+)
+
+func main() {
+  lm := layeredmap.New()
+  ttl := time.Second * 5
+
+  // Add user Alice with expiration time
+  lm.Add([]byte("user"), "Alice", &ttl)
+
+  // Add user Robert with no expiration time
+  lm.Add([]byte("user"), "Robert", nil)
+
+  // Get all stored values with key `user`
+  values, found := lm.GetAll([]byte("user"))
+  if found {
+    fmt.Println("Values:", values) // [Alice Roberto]
+  } else {
+    fmt.Println("Key not found or all values have expired")
+  }
+
+  // Remove the last stored value and return it
+  last, found := lm.PopLast([]byte("user"))
+  if found {
+    fmt.Println("Last value:", last) // Roberto
+  }
+}
+```
+
+See more on [layeredmap.go](./layeredmap.go)

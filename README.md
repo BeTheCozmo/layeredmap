@@ -25,6 +25,10 @@ Explaining: For each byte, if the next layer of chars isn't allocated, the algor
 
 # Pros and Cons
 
-This is usefull because if you have a lot of data oriented by documents, for example, and you have milions of data in your storage, with this algorithm you don't need to search in all your database if the document matches taking a lot of time, the time you will need to find the data will be the size of the document provided.
+## Pros
 
-But, for the other side, if you have a lot of different keys, certainly you will need more memory to handle all the memory allocated.
+The `Layered Map` is particularly useful when dealing with large datasets, such as document-oriented data with millions of entries. Unlike traditional search methods that require scanning the entire database to find a matching document—which can be time-consuming—this algorithm retrieves data in a time proportional to the size of the provided key (in bytes). This makes it highly efficient for scenarios where quick lookups based on specific keys are critical.
+
+## Cons
+
+On the downside, if your dataset contains a large number of unique keys, the memory usage can increase significantly. Each distinct key creates its own path of nodes in the structure, leading to higher memory allocation. This trade-off may become a concern in applications with highly diverse keys or limited memory resources.
